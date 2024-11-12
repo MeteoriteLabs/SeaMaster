@@ -1,0 +1,15 @@
+flask
+requests
+beautifulsoup4
+openai
+pinecone-client
+flask-cors
+python-dotenv
+# 
+PyPDF2
+langchain
+langchain-openai
+langchain_community
+langchain-core
+langchain-text-splitters
+# faiss-cpu

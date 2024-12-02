@@ -3,7 +3,7 @@ services:
     build: ./backend/.
     ports:
       - "8000:5000"
-    environment:
+    environment: {}
 
     volumes:
       - ./backend:/backend
@@ -17,7 +17,7 @@ services:
   #     -"6379:6379"
   #     -"8001:8001"
   frontend:
-    build: 
+    build:
       context: ./frontend/.
       dockerfile: Dockerfile.dev
     ports:
@@ -28,7 +28,7 @@ services:
     # restart: always
 
     # command: npm run dev
-    
+
     # command: npm dev
 
     #   - "80:80"

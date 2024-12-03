@@ -89,12 +89,8 @@ export default function ChatPage() {
       <div className="flex flex-col h-screen w-full">
         {/* Chat History */}
         <div
-          className="flex-1 overflow-y-scroll p-4 space-y-4 pb-6 mb-20"
+          className="flex-1 overflow-y-scroll p-4 space-y-4 pb-6 mb-20 scrollbar-hide px-36 font-mullish-400"
           ref={scrollRef}
-          style={{
-            scrollbarWidth: "thin",
-            msOverflowStyle: "none",
-          }}
         >
           {chat.map((c: IChat) => (
             <Chat key={c.id} data={c} />
@@ -102,7 +98,7 @@ export default function ChatPage() {
         </div>
 
         {/* Query Input */}
-        <div className="sticky bottom-4 flex items-center w-full pr-52">
+        <div className="sticky bottom-4 flex items-center w-full pr-44">
           <form
             className="flex w-full gap-2 items-center"
             onSubmit={askQuestion}

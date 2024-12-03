@@ -9,7 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        "sea-master-blue": "#066286"
+        "sea-master-blue": "#066286",
+        "sea-master-blue-medium": "#1389B7",
+        "sea-master-blue-light": "#D9D9D9",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

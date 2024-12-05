@@ -1,13 +1,11 @@
 import {
   File,
   FileChartColumn,
-  MessageSquareText,
   Moon,
   Sun,
   ToggleLeft,
   ToggleRight,
 } from "lucide-react";
-
 import {
   Sidebar,
   SidebarContent,
@@ -20,9 +18,17 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export default function AdminSidebar() {
-  const { setTheme, theme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <Sidebar className="px-3">
@@ -37,7 +43,7 @@ export default function AdminSidebar() {
                 <SidebarMenuButton asChild>
                   <div className="flex items-center">
                     <File size={18} className="mr-2" />
-                    <p className="text-sm font-light">Training Database</p>
+                    <p className="text-sm font-normal">Training Database</p>
                   </div>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -45,7 +51,7 @@ export default function AdminSidebar() {
                 <SidebarMenuButton asChild>
                   <div className="flex items-center">
                     <FileChartColumn size={18} className="mr-2" />
-                    <p className="text-sm font-light">Analysis</p>
+                    <p className="text-sm font-normal">Analysis</p>
                   </div>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -57,7 +63,7 @@ export default function AdminSidebar() {
         <div className="my-3 text-sm font-normal">
           <div className="flex items-center justify-between my-4">
             <div className="flex items-center">
-              {theme === "light" ? (
+              {resolvedTheme === "light" ? (
                 <Moon
                   size={18}
                   className="mr-3 transition-transform duration-300 ease-in-out"
@@ -68,7 +74,7 @@ export default function AdminSidebar() {
                   className="mr-3 transition-transform duration-300 ease-in-out"
                 />
               )}
-              {theme === "light" ? (
+              {resolvedTheme === "light" ? (
                 <p className="transition-colors duration-300 ease-in-out">
                   Dark Mode
                 </p>
@@ -79,7 +85,7 @@ export default function AdminSidebar() {
               )}
             </div>
             <div className="cursor-pointer">
-              {theme === "light" ? (
+              {resolvedTheme === "light" ? (
                 <ToggleLeft
                   size={20}
                   className="transition-transform duration-300 ease-in-out"

@@ -188,35 +188,39 @@ export default function AdminPage() {
         <Separator className="mt-5" />
 
         <TabsContent value="document">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-sea-master-blue-medium">
-                <TableHead className="text-white">File Name</TableHead>
-                <TableHead className="text-white">Tag</TableHead>
-                <TableHead className="text-white">Last Modified</TableHead>
-                <TableHead className="text-white">Status</TableHead>
-                <TableHead className="text-white">Tokens</TableHead>
-              </TableRow>
-            </TableHeader>
-            <ScrollArea className="w-full h-32">
-              <TableBody>
-                {tableData.map((item, index) => (
-                  <TableRow
-                    key={index}
-                    className={index % 2 === 0 ? "bg-gray-100" : "bg-white"}
-                  >
-                    <TableCell className="font-medium">
-                      {item.fileName}
-                    </TableCell>
-                    <TableCell>{item.tag}</TableCell>
-                    <TableCell>{item.lastModified}</TableCell>
-                    <TableCell>{item.status}</TableCell>
-                    <TableCell className="text-right">{item.tokens}</TableCell>
+          <div className="relative w-full">
+            <Table className="table-auto w-full">
+              <ScrollArea className="h-40 overflow-auto w-full">
+                <TableHeader className="sticky top-0 bg-sea-master-blue z-10">
+                  <TableRow>
+                    <TableHead className="text-white">File Name</TableHead>
+                    <TableHead className="text-white">Tag</TableHead>
+                    <TableHead className="text-white">Last Modified</TableHead>
+                    <TableHead className="text-white">Status</TableHead>
+                    <TableHead className="text-white">Tokens</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </ScrollArea>
-          </Table>
+                </TableHeader>
+                <TableBody>
+                  {tableData.map((item, index) => (
+                    <TableRow
+                      key={index}
+                      className={index % 2 === 0 ? "bg-gray-100" : "bg-white"}
+                    >
+                      <TableCell className="font-medium">
+                        {item.fileName}
+                      </TableCell>
+                      <TableCell>{item.tag}</TableCell>
+                      <TableCell>{item.lastModified}</TableCell>
+                      <TableCell>{item.status}</TableCell>
+                      <TableCell className="text-right">
+                        {item.tokens}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </ScrollArea>
+            </Table>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

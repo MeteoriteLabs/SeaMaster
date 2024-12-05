@@ -1,7 +1,7 @@
 "use client";
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import AppSidebar from "@/components/AppSidebar";
+import AdminSidebar from "@/components/AdminSidebar";
 
 export default function RootLayout({
   children,
@@ -13,7 +13,7 @@ export default function RootLayout({
       <section className="h-screen w-screen overflow-hidden">
         <div className="flex h-full">
           <SidebarProvider>
-            <AppSidebar />
+            <AdminSidebar />
             <main className={`bg-sea-master-blue-medium flex-1`}>
               <header className="flex items-center justify-between my-3">
                 <SidebarTrigger className="ml-3 mb-[-3px] hover:bg-sea-master-blue h-8 w-8" />

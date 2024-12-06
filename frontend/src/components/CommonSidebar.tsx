@@ -1,11 +1,4 @@
-import {
-  File,
-  FileChartColumn,
-  Moon,
-  Sun,
-  ToggleLeft,
-  ToggleRight,
-} from "lucide-react";
+import React, { useEffect, useState } from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -17,50 +10,70 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Moon, Sun, ToggleLeft, ToggleRight } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 
-export default function AdminSidebar() {
+interface MenuItem {
+  name: string;
+  icon: React.ReactNode;
+}
+
+interface FooterItem {
+  name: string;
+  icon: React.ReactNode;
+}
+
+interface CommonSidebarProps {
+  menuItems: MenuItem[];
+  footerItems: FooterItem[];
+}
+
+export default function CommonSidebar({
+  menuItems,
+  footerItems,
+}: CommonSidebarProps) {
   const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
     setMounted(true);
   }, []);
+
   if (!mounted) {
     return null;
   }
 
   return (
     <Sidebar className="px-3">
+      {/* Sidebar Header */}
       <SidebarHeader className="bg-sea-master-blue text-white font-inter px-4">
         <img className="mx-auto mt-3 mb-5" src="logo.svg" alt="logo" />
       </SidebarHeader>
+
+      {/* Sidebar Content */}
       <SidebarContent className="bg-sea-master-blue text-white font-inter">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <div className="flex items-center">
-                    <File size={18} className="mr-2" />
-                    <p className="text-sm font-normal">Training Database</p>
-                  </div>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <div className="flex items-center">
-                    <FileChartColumn size={18} className="mr-2" />
-                    <p className="text-sm font-normal">Analysis</p>
-                  </div>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {menuItems.map((item, index) => (
+                <SidebarMenuItem key={index}>
+                  <SidebarMenuButton asChild>
+                    <div className="flex items-center">
+                      <div className="mr-2">{item.icon}</div>
+                      <p className="text-sm font-normal">{item.name}</p>
+                    </div>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+
+      {/* Sidebar Footer */}
       <SidebarFooter className="bg-sea-master-blue text-white font-inter px-5">
         <div className="my-3 text-sm font-normal">
+          {/* Dark Mode Toggle */}
           <div className="flex items-center justify-between my-4">
             <div className="flex items-center">
               {resolvedTheme === "light" ? (
@@ -101,14 +114,13 @@ export default function AdminSidebar() {
             </div>
           </div>
 
-          <div className="flex items-center my-4 -ml-1">
-            <img
-              src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
-              alt="User Avatar"
-              className="w-7 h-7 rounded-full mr-2"
-            />
-            <p>Super Admin</p>
-          </div>
+          {/* Dynamic Footer Items */}
+          {footerItems.map((item, index) => (
+            <div key={index} className="flex items-center my-4">
+              <div className="mr-2">{item.icon}</div>
+              <p>{item.name}</p>
+            </div>
+          ))}
         </div>
       </SidebarFooter>
     </Sidebar>

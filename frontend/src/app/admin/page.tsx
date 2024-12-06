@@ -159,13 +159,13 @@ export default function AdminPage() {
               <span className="mr-1">
                 <File />
               </span>
-              Account
+              Documents
             </TabsTrigger>
             <TabsTrigger value="link" className="px-8 py-1">
               <span className="mr-1">
                 <Link />
               </span>
-              Password
+              Links
             </TabsTrigger>
           </TabsList>
         </div>

@@ -72,6 +72,7 @@ const config: Config = {
       fontFamily: {
         mullish: ["Mulish", "sans-serif"],
         inter: ["Inter", "sans-serif"],
+        plusjakartasans: ["Plus Jakarta Sans", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

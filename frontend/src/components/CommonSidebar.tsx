@@ -58,7 +58,7 @@ export default function CommonSidebar({
               {menuItems.map((item, index) => (
                 <SidebarMenuItem key={index}>
                   <SidebarMenuButton asChild>
-                    <div className="flex items-center">
+                    <div className="flex items-center mb-1">
                       <div className="mr-2">{item.icon}</div>
                       <p className="text-sm font-normal">{item.name}</p>
                     </div>

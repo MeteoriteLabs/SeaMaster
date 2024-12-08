@@ -52,8 +52,8 @@ const AccountPage = () => {
                 </span>
                 <div className="font-light">
                   <p className="font-normal text-sm">Windows</p>
-                  <p className="text-[10px] sm:text-xs">Chrome 128.0.0</p>
-                  <p className="text-[10px] sm:text-xs">
+                  <p className="text-[9px] sm:text-xs">Chrome 128.0.0</p>
+                  <p className="text-[9px] sm:text-xs">
                     display.windows.adminx5z3r5k9f162ac05t15jq6nts
                   </p>
                   <p className="text-[10px] sm:text-xs">Today at 4:12 PM</p>
@@ -66,8 +66,8 @@ const AccountPage = () => {
                 </span>
                 <div className="font-light">
                   <p className="font-normal text-sm">Android</p>
-                  <p className="text-[10px] sm:text-xs">Chrome 128.0.0</p>
-                  <p className="text-[10px] sm:text-xs">
+                  <p className="text-[9px] sm:text-xs">Chrome 128.0.0</p>
+                  <p className="text-[9px] sm:text-xs">
                     display.androidx5z3r5k9f162ac05t15jq6nts
                   </p>
                   <p className="text-[10px] sm:text-xs">Today at 4:17 PM</p>

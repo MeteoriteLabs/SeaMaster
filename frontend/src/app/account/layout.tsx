@@ -19,7 +19,7 @@ export default function RootLayout({
       <div className="flex h-full">
         <SidebarProvider>
           <Sidebar menuItems={sidebarmenuItems} footerItems={[]} />
-          <main className="bg-sea-master-blue flex-1 overflow-y-auto sm:overflow-hidden">
+          <main className="bg-sea-master-blue flex-1 min-h-screen overflow-y-auto">
             <header className="sticky top-0 z-10 bg-sea-master-blue py-3 px-4 flex items-center justify-between">
               <SidebarTrigger className="h-8 w-8 p-1 hover:bg-sea-master-light rounded-full" />
               <div className="w-10 h-10 rounded-full border border-gray-300 overflow-hidden">

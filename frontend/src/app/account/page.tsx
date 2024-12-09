@@ -36,7 +36,7 @@ const AccountPage = () => {
         </div>
 
         {/* Security Section */}
-        <div className="mt-6">
+        <div className="mt-12">
           <h2 className="text-lg sm:text-xl lg:text-2xl">Security</h2>
           <p className="text-xs sm:text-sm font-light">
             Manage your security preferences

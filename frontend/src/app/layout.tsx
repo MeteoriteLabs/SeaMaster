@@ -1,5 +1,9 @@
+"use client";
+
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { ApolloProvider } from "@apollo/client";
+import client from "@/lib/apollo-client";
 
 export default function RootLayout({
   children,
@@ -10,18 +14,20 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head />
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <main>
-            <div className="2xl:container global-parent bg-sea-master-blue border-white">
-              {children}
-            </div>
-          </main>
-        </ThemeProvider>
+        <ApolloProvider client={client}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <main>
+              <div className="2xl:container global-parent bg-sea-master-blue border-white">
+                {children}
+              </div>
+            </main>
+          </ThemeProvider>
+        </ApolloProvider>
       </body>
     </html>
   );

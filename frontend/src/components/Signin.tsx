@@ -17,6 +17,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "./ui/card";
@@ -46,7 +47,7 @@ export default function Signin() {
   }
 
   return (
-    <Card className="w-[450px] p-8 bg-[#F2F2F2] shadow-md rounded-2xl font-inter mb-5 md:mb-0">
+    <Card className="w-[450px] p-8 bg-[#F2F2F2] shadow-md rounded-2xl font-inter mb-5">
       <CardHeader>
         <CardTitle className="text-4xl font-bold">Sign in</CardTitle>
         <CardDescription className="text-[#969696] text-sm">
@@ -101,6 +102,14 @@ export default function Signin() {
                 Keep me logged in
               </label>
             </div>
+            {/* Submit Button */}
+            <Button
+              type="submit"
+              className="w-full bg-[#367AFF] hover:bg-blue-600 text-white py-6 text-base"
+            >
+              Sign In
+            </Button>
+            {/* divider */}
             <div className="relative w-full">
               <div className="flex items-center w-full">
                 <div className="flex-grow border-t border-gray-300"></div>
@@ -110,14 +119,6 @@ export default function Signin() {
                 <div className="flex-grow border-t border-gray-300"></div>
               </div>
             </div>
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              className="w-full bg-[#367AFF] hover:bg-blue-600 text-white py-6 text-base"
-            >
-              Sign In
-            </Button>
-
             {/* google signin button */}
             <Button
               type="button"
@@ -133,6 +134,14 @@ export default function Signin() {
           </form>
         </Form>
       </CardContent>
+      <CardFooter className="text-[#6C6C6C] text-base flex items-center justify-center">
+        <p>
+          Need An Account?{" "}
+          <span className="text-[#367AFF] font-semibold underline">
+            Create One
+          </span>
+        </p>
+      </CardFooter>
     </Card>
   );
 }

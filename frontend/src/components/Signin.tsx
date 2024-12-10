@@ -22,17 +22,37 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Checkbox } from "./ui/checkbox";
+import { gql, useMutation } from "@apollo/client";
+import useAuthStore from "@/store/authStore";
+import { useRouter } from "next/navigation";
+
+const formSchema = z.object({
+  email: z.string().email({
+    message: "Please enter a valid email address.",
+  }),
+
+  password: z.string().min(6, {
+    message: "Password must be at least 6 characters.",
+  }),
+});
+
+const LOGIN_MUTATION = gql`
+  mutation Login($identifier: String!, $password: String!) {
+    login(input: { identifier: $identifier, password: $password }) {
+      jwt
+      user {
+        id
+        username
+        email
+      }
+    }
+  }
+`;
 
 export default function Signin() {
-  const formSchema = z.object({
-    email: z.string().email({
-      message: "Please enter a valid email address.",
-    }),
-
-    password: z.string().min(6, {
-      message: "Password must be at least 6 characters.",
-    }),
-  });
+  const [login, { data, loading, error }] = useMutation(LOGIN_MUTATION);
+  const { setAuth } = useAuthStore();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,10 +62,29 @@ export default function Signin() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const response = await login({
+        variables: {
+          identifier: values.email,
+          password: values.password,
+        },
+      });
+
+      const { jwt, user } = response.data.login;
+      console.log("JWT Token:", jwt);
+      console.log("User Info:", user);
+      setAuth(jwt, user);
+      alert(`Welcome, ${user.username}!`);
+      router.push("/chat");
+    } catch (err) {
+      console.error("Login error:", err);
+    }
   }
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
   return (
     <Card className="w-[450px] p-8 bg-[#F2F2F2] shadow-md rounded-2xl font-inter mb-5">
       <CardHeader>

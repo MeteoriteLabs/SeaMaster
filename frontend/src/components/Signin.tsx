@@ -162,6 +162,11 @@ export default function Signin() {
             <Button
               type="button"
               className="w-full bg-white hover:bg-gray-100 text-black py-6 text-base"
+              onClick={() => {
+                router.push(
+                  `${process.env.NEXT_PUBLIC_STRAPI_API}/api/connect/google`
+                );
+              }}
             >
               Sign in with Google{" "}
               <img

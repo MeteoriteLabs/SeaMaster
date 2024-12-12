@@ -32,8 +32,8 @@ const items = [
 export default function AppSidebar() {
   const { setTheme, theme } = useTheme();
   return (
-    <Sidebar>
-      <SidebarHeader className="bg-background text-foreground font-inter px-4">
+    <Sidebar className="px-4 bg-background">
+      <SidebarHeader className="bg-background text-foreground font-inter">
         <img
           className="mx-auto mt-2 mb-2"
           src={
@@ -62,7 +62,7 @@ export default function AppSidebar() {
               {items.map((item, index) => (
                 <SidebarMenuItem key={index}>
                   <SidebarMenuButton asChild>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between mb-1">
                       <div className="flex items-center justify-between">
                         <MessageSquareText size={18} className="mr-2" />
                         <p className="text-sm font-light">{item?.name}</p>
@@ -76,7 +76,7 @@ export default function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="bg-background text-foreground font-inter px-5">
+      <SidebarFooter className="bg-background text-foreground font-inter">
         <div className="my-3 text-sm font-normal">
           <Button
             size={"sm"}
@@ -84,7 +84,7 @@ export default function AppSidebar() {
           >
             500/1000 tokens
           </Button>
-          <div className="flex items-center justify-between my-4">
+          <div className="flex items-center justify-between my-5">
             <div className="flex items-center justify-between">
               {theme === "light" ? (
                 <Moon

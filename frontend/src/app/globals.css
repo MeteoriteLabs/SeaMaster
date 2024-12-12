@@ -12,8 +12,8 @@
     --card: #ffffff; /* White */
     --card-foreground: #000000; /* Black */
     --border: #cccccc; /* Light Gray */
-    --input: #f2f2f2; /* Light Gray */
-    --ring: #e0e0e0; /* Lighter Gray */
+    --input: #cccccc; /* Light Gray */
+    --ring: #cccccc; /* Lighter Gray */
     --primary: #000000; /* Black */
     --primary-foreground: #ffffff; /* White */
     --secondary: #e6e6e6; /* Very Light Gray */
@@ -47,8 +47,8 @@
     --card: #044c60; /* Darker Blue */
     --card-foreground: #f2f2f2; /* Very Light Gray */
     --border: #f2f2f2; /* Darker Blue */
-    --input: #044c60; /* Darker Blue */
-    --ring: #033a4d; /* Even Darker Blue */
+    --input: #f2f2f2; /* Darker Blue */
+    --ring: #f2f2f2; /* Even Darker Blue */
     --primary: #f2f2f2; /* Very Light Gray */
     --primary-foreground: #066286; /* Sea-Master Blue */
     --secondary: #044c60; /* Darker Blue */

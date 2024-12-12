@@ -25,6 +25,8 @@ import { Checkbox } from "./ui/checkbox";
 import { gql, useMutation } from "@apollo/client";
 import useAuthStore from "@/store/authStore";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -50,6 +52,7 @@ const LOGIN_MUTATION = gql`
 `;
 
 export default function Signin() {
+  const [signinSuccess, setSigninSuccess] = useState(false);
   const [login, { data, loading, error }] = useMutation(LOGIN_MUTATION);
   const { setAuth } = useAuthStore();
   const router = useRouter();
@@ -75,12 +78,20 @@ export default function Signin() {
       console.log("JWT Token:", jwt);
       console.log("User Info:", user);
       setAuth(jwt, user);
-      alert(`Welcome, ${user.username}!`);
+      setSigninSuccess(true);
       router.push("/chat");
     } catch (err) {
       console.error("Login error:", err);
     }
   }
+
+  useEffect(() => {
+    if (signinSuccess) {
+      toast("Login Successfull", {
+        description: "You have successfully signed in",
+      });
+    }
+  }, [signinSuccess]);
 
   if (loading) {
     return <p>Loading...</p>;

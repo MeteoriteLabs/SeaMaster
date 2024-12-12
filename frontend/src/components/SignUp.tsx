@@ -10,6 +10,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -25,39 +26,32 @@ import { Checkbox } from "./ui/checkbox";
 import { gql, useMutation } from "@apollo/client";
 import useAuthStore from "@/store/authStore";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const formSchema = z
   .object({
     email: z.string().email({
       message: "Please enter a valid email address.",
     }),
+    username: z.string().min(3, {
+      message: "Username must be at least 3 characters.",
+    }),
     password: z.string().min(6, {
       message: "Password must be at least 6 characters.",
     }),
-    confirmPassword: z.string().min(6, {
-      message: "Confirm password must be at least 6 characters.",
-    }),
-    bio: z.string().min(10, {
-      message: "Bio must be at least 10 characters.",
-    }),
-    rank: z.string().min(1, {
-      message: "Rank is required.",
-    }),
-    company: z.string().min(2, {
-      message: "Company name must be at least 2 characters.",
-    }),
-    phone: z.string().regex(/^\d{10}$/, {
-      message: "Phone number must be 10 digits.",
-    }),
+    confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
     message: "Passwords must match.",
   });
 
-const LOGIN_MUTATION = gql`
-  mutation Login($identifier: String!, $password: String!) {
-    login(input: { identifier: $identifier, password: $password }) {
+const SIGNUP_MUTATION = gql`
+  mutation Signup($username: String!, $email: String!, $password: String!) {
+    register(
+      input: { username: $username, email: $email, password: $password }
+    ) {
       jwt
       user {
         id
@@ -69,7 +63,8 @@ const LOGIN_MUTATION = gql`
 `;
 
 export default function SignUp() {
-  const [login, { loading }] = useMutation(LOGIN_MUTATION);
+  const [signupSuccess, setSignupSuccess] = useState(false);
+  const [signup, { data, loading, error }] = useMutation(SIGNUP_MUTATION);
   const { setAuth } = useAuthStore();
   const router = useRouter();
 
@@ -79,29 +74,39 @@ export default function SignUp() {
       email: "",
       password: "",
       confirmPassword: "",
-      bio: "",
-      rank: "",
-      company: "",
-      phone: "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await login({
+      const { data } = await signup({
         variables: {
-          identifier: values.email,
+          email: values.email,
+          username: values.username,
           password: values.password,
         },
       });
-
-      const { jwt, user } = response.data.login;
-      setAuth(jwt, user);
-      alert(`Welcome, ${user.username}!`);
-      router.push("/chat");
+      if (data?.register?.jwt) {
+        setAuth(data.register.jwt, data.register.user);
+        setSignupSuccess(true);
+        router.push("/chat");
+      }
     } catch (err) {
-      console.error("Login error:", err);
+      console.error("Signup error:", err);
     }
+  }
+
+  useEffect(() => {
+    console.log("Signup Success:", signupSuccess);
+    if (signupSuccess) {
+      toast("SignUp Successfull", {
+        description: "You have successfully signed up",
+      });
+    }
+  }, [signupSuccess]);
+
+  if (loading) {
+    return <p>Loading...</p>;
   }
 
   return (
@@ -120,6 +125,7 @@ export default function SignUp() {
               name="email"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
                       id="email"
@@ -134,9 +140,27 @@ export default function SignUp() {
             />
             <FormField
               control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Username"
+                      className="border-gray-300 focus:border-blue-500 focus:border-2 focus:bg-inherit focus-visible:ring-0 py-6 rounded-lg"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="password"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
@@ -154,6 +178,7 @@ export default function SignUp() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
@@ -166,70 +191,6 @@ export default function SignUp() {
                 </FormItem>
               )}
             />
-            {/* <FormField
-              control={form.control}
-              name="bio"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      placeholder="Tell us about yourself"
-                      className="border-gray-300 focus:border-blue-500 focus:border-2 focus:bg-inherit focus-visible:ring-0 py-6 rounded-lg"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="rank"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      placeholder="Rank"
-                      className="border-gray-300 focus:border-blue-500 focus:border-2 focus:bg-inherit focus-visible:ring-0 py-6 rounded-lg"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="company"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      placeholder="Company"
-                      className="border-gray-300 focus:border-blue-500 focus:border-2 focus:bg-inherit focus-visible:ring-0 py-6 rounded-lg"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      placeholder="Phone Number"
-                      className="border-gray-300 focus:border-blue-500 focus:border-2 focus:bg-inherit focus-visible:ring-0 py-6 rounded-lg"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
             <Button
               type="submit"
               className="w-full bg-[#367AFF] hover:bg-blue-600 text-white py-6 text-base"

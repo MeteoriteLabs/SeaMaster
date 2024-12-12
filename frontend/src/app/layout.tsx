@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ApolloProvider } from "@apollo/client";
 import client from "@/lib/apollo-client";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function RootLayout({
   children,
@@ -24,6 +25,7 @@ export default function RootLayout({
             <main>
               <div className="2xl:container global-parent bg-sea-master-blue border-white">
                 {children}
+                <Toaster />
               </div>
             </main>
           </ThemeProvider>

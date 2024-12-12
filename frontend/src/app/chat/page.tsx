@@ -115,7 +115,7 @@ export default function ChatPage() {
                 name="question"
                 type="text"
                 placeholder="Type a message..."
-                className="flex h-10 w-full rounded-lg bg-background/80 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="bg-[#f2f2f2] text-black flex h-10 w-full rounded-lg bg-background/80 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               />
 
               {/* Submit Button */}

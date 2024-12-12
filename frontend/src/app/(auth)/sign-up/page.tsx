@@ -1,4 +1,3 @@
-import Signin from "@/components/Signin";
 import SignUp from "@/components/SignUp";
 
 const Page = () => {

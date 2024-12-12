@@ -27,6 +27,7 @@ import useAuthStore from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import useLoadingStore from "@/store/loadingStore";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -56,6 +57,7 @@ export default function Signin() {
   const [login, { data, loading, error }] = useMutation(LOGIN_MUTATION);
   const { setAuth } = useAuthStore();
   const router = useRouter();
+  const { setLoading } = useLoadingStore();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -67,21 +69,22 @@ export default function Signin() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      setLoading(true);
       const response = await login({
         variables: {
           identifier: values.email,
           password: values.password,
         },
       });
-
+      setLoading(false);
       const { jwt, user } = response.data.login;
-      console.log("JWT Token:", jwt);
-      console.log("User Info:", user);
       setAuth(jwt, user);
       setSigninSuccess(true);
-      router.push("/chat");
+      router.push("/account");
     } catch (err) {
       console.error("Login error:", err);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -93,9 +96,6 @@ export default function Signin() {
     }
   }, [signinSuccess]);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
   return (
     <Card className="w-[450px] p-8 bg-[#F2F2F2] shadow-md rounded-2xl font-inter mb-5">
       <CardHeader>

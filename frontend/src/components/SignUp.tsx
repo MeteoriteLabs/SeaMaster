@@ -28,6 +28,7 @@ import useAuthStore from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import useLoadingStore from "@/store/loadingStore";
 
 const formSchema = z
   .object({
@@ -67,6 +68,7 @@ export default function SignUp() {
   const [signup, { data, loading, error }] = useMutation(SIGNUP_MUTATION);
   const { setAuth } = useAuthStore();
   const router = useRouter();
+  const { setLoading } = useLoadingStore();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -79,6 +81,7 @@ export default function SignUp() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      setLoading(true);
       const { data } = await signup({
         variables: {
           email: values.email,
@@ -86,13 +89,16 @@ export default function SignUp() {
           password: values.password,
         },
       });
+      setLoading(false);
       if (data?.register?.jwt) {
         setAuth(data.register.jwt, data.register.user);
         setSignupSuccess(true);
-        router.push("/chat");
+        router.push("/account");
       }
     } catch (err) {
       console.error("Signup error:", err);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -104,10 +110,6 @@ export default function SignUp() {
       });
     }
   }, [signupSuccess]);
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
 
   return (
     <Card className="w-[450px] p-8 bg-[#F2F2F2] shadow-md rounded-2xl font-inter mb-5">

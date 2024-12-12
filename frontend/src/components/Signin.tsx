@@ -88,7 +88,7 @@ export default function Signin() {
   return (
     <Card className="w-[450px] p-8 bg-[#F2F2F2] shadow-md rounded-2xl font-inter mb-5">
       <CardHeader>
-        <CardTitle className="text-4xl font-bold">Sign in</CardTitle>
+        <CardTitle className="text-4xl font-bold text-black">Sign in</CardTitle>
         <CardDescription className="text-[#969696] text-sm">
           Please login to continue your account
         </CardDescription>
@@ -105,7 +105,7 @@ export default function Signin() {
                   <FormControl>
                     <Input
                       placeholder="Email"
-                      className="border-gray-300 focus:border-blue-500 focus:border-2 focus:bg-inherit focus-visible:ring-0 py-6 rounded-lg"
+                      className="border-gray-300 focus:border-blue-500 focus:border-2 focus:bg-inherit focus-visible:ring-0 py-6 rounded-lg text-black"
                       {...field}
                     />
                   </FormControl>
@@ -123,7 +123,7 @@ export default function Signin() {
                     <Input
                       type="password"
                       placeholder="Password"
-                      className="border-gray-300 focus:border-blue-500 focus:border-2 focus:bg-inherit focus-visible:ring-0 py-6 rounded-lg"
+                      className="border-gray-300 focus:border-blue-500 focus:border-2 focus:bg-inherit focus-visible:ring-0 py-6 rounded-lg text-black"
                       {...field}
                     />
                   </FormControl>
@@ -136,7 +136,7 @@ export default function Signin() {
               <Checkbox id="terms" />
               <label
                 htmlFor="terms"
-                className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="text-sm text-black font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 Keep me logged in
               </label>

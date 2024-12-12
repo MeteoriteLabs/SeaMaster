@@ -107,7 +107,7 @@ export default function SignUp() {
   return (
     <Card className="w-[450px] p-8 bg-[#F2F2F2] shadow-md rounded-2xl font-inter mb-5">
       <CardHeader>
-        <CardTitle className="text-4xl font-bold">Sign Up</CardTitle>
+        <CardTitle className="text-4xl font-bold text-black">Sign Up</CardTitle>
         <CardDescription className="text-[#969696] text-sm">
           Sign Up to enjoy Sea Master
         </CardDescription>
@@ -166,7 +166,7 @@ export default function SignUp() {
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="bio"
               render={({ field }) => (
@@ -229,12 +229,40 @@ export default function SignUp() {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <Button
               type="submit"
               className="w-full bg-[#367AFF] hover:bg-blue-600 text-white py-6 text-base"
             >
               Sign Up
+            </Button>
+
+            {/* divider */}
+            <div className="relative w-full">
+              <div className="flex items-center w-full">
+                <div className="flex-grow border-t border-gray-300"></div>
+                <span className="px-4 text-xs font-medium text-gray-400">
+                  or
+                </span>
+                <div className="flex-grow border-t border-gray-300"></div>
+              </div>
+            </div>
+            {/* google signin button */}
+            <Button
+              type="button"
+              className="w-full bg-white hover:bg-gray-100 text-black py-6 text-base"
+              onClick={() => {
+                router.push(
+                  `${process.env.NEXT_PUBLIC_STRAPI_API}/api/connect/google`
+                );
+              }}
+            >
+              Sign Up with Google{" "}
+              <img
+                src="/google-btn-logo.png"
+                alt="Google"
+                className="w-4 h-4"
+              />
             </Button>
           </form>
         </Form>

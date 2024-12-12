@@ -3,8 +3,8 @@ import { Laptop, Smartphone } from "lucide-react";
 
 const AccountPage = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center font-inter text-white pb-10 font-bold text-sm">
-      <div className="bg-sea-master-blue-medium w-[95%] sm:w-[90%] md:w-[70%] lg:w-[50%] px-4 sm:px-6 lg:px-10 py-6 rounded-lg shadow-md">
+    <div className="min-h-screen flex flex-col items-center font-inter text-foreground pb-10 font-bold text-sm">
+      <div className="bg-muted w-[95%] sm:w-[90%] md:w-[70%] lg:w-[50%] px-4 sm:px-6 lg:px-10 py-6 rounded-lg shadow-md">
         {/* Account Section */}
         <div>
           <h2 className="text-lg sm:text-xl lg:text-2xl">Account</h2>
@@ -16,7 +16,13 @@ const AccountPage = () => {
             <div>
               <h3 className="text-sm font-bold">Profile</h3>
               <p className="flex items-center my-3 text-sm px-3">
-                <span className="w-6 sm:w-7 lg:w-8 h-6 sm:h-7 lg:h-8 rounded-full bg-white inline-block mr-3 font-medium"></span>
+                <span className="bg-background w-6 sm:w-7 lg:w-8 h-6 sm:h-7 lg:h-8 rounded-full inline-block mr-3 font-medium">
+                  <img
+                    src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
+                    alt="User Avatar"
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                </span>
                 Ship Master
               </p>
             </div>
@@ -42,7 +48,7 @@ const AccountPage = () => {
             Manage your security preferences
           </p>
           <Separator className="my-2" />
-          <div className="text-white">
+          <div className="">
             <h3 className="text-sm font-bold mb-3">Active Devices</h3>
             <div className="space-y-6">
               {/* Device 1 */}

@@ -86,10 +86,8 @@ export default function AdminPage() {
           input.click();
         }}
       >
-        <p className="text-white font-bold text-base sm:text-lg md:text-xl">
-          Drop files
-        </p>
-        <CloudUploadIcon className="w-10 h-10 text-white" />
+        <p className="font-bold text-base sm:text-lg md:text-xl">Drop files</p>
+        <CloudUploadIcon className="w-10 h-10" />
       </div>
 
       {/* Files List */}
@@ -128,7 +126,7 @@ export default function AdminPage() {
       <div className="relative w-full">
         <div className="flex items-center w-full">
           <div className="flex-grow border-t border-gray-300"></div>
-          <span className="px-4 text-sm font-medium text-white">OR</span>
+          <span className="px-4 text-sm font-medium">OR</span>
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
       </div>
@@ -138,7 +136,7 @@ export default function AdminPage() {
         <Input
           type="url"
           placeholder="Enter your link here"
-          className="flex-1 rounded-md h-10 text-sm text-white placeholder:text-muted focus-visible:ring-0 placeholder:text-xs flex-shrink-0"
+          className="flex-1 rounded-md h-10 text-sm focus-visible:ring-0 placeholder:text-xs flex-shrink-0 placeholder:text-muted-foreground"
         />
         <Button
           type="submit"
@@ -154,13 +152,13 @@ export default function AdminPage() {
       <Tabs defaultValue="document" className="w-full mt-6">
         {/* Tabs List */}
         <div className="flex items-center justify-center gap-2 overflow-x-auto">
-          <TabsList className="flex gap-2 px-2">
+          <TabsList className="flex gap-2">
             <TabsTrigger
               value="document"
-              className="px-6 py-1 text-sm md:text-base"
+              className="px-4 py-1 text-sm md:text-base"
               onClick={() => setActiveTab("document")}
             >
-              <File className="mr-1" />
+              <File className="" />
               Documents
             </TabsTrigger>
             <TabsTrigger
@@ -168,26 +166,26 @@ export default function AdminPage() {
               className="px-6 py-1 text-sm md:text-base"
               onClick={() => setActiveTab("link")}
             >
-              <Link className="mr-1" />
+              <Link className="" />
               Links
             </TabsTrigger>
           </TabsList>
         </div>
 
         {/* Tabs Content */}
-        <div className="flex flex-col sm:flex-row items-center sm:justify-between gap-4 text-white my-4">
+        <div className="flex flex-col sm:flex-row items-center sm:justify-between gap-4 my-4">
           <div className="flex flex-row sm:flex-row items-start sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
             <p className="text-sm sm:text-base md:text-lg font-medium font-sans">
               Training {activeTab === "link" ? "Links" : "Documents"}
             </p>
-            <p className="text-[10px] sm:text-xs font-medium bg-slate-200 px-2 py-1 rounded-full text-indigo-600">
+            <p className="text-[10px] sm:text-xs font-medium bg-slate-300 px-2 py-1 rounded-full text-indigo-600">
               {filteredTableData?.length} Total
             </p>
           </div>
           <Input
             type="search"
             placeholder="Search Links and Websites"
-            className="w-full sm:w-60 md:w-96 rounded-full bg-white text-black text-xs sm:text-sm"
+            className="w-full sm:w-60 md:w-96 rounded-full text-xs sm:text-sm"
             onChange={(event) => handleSearch(event.target.value)}
           />
         </div>

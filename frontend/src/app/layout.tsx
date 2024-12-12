@@ -17,7 +17,7 @@ export default function RootLayout({
         <ApolloProvider client={client}>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="dark"
             enableSystem
             disableTransitionOnChange
           >

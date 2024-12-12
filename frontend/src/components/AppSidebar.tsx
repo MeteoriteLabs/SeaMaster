@@ -33,21 +33,29 @@ export default function AppSidebar() {
   const { setTheme, theme } = useTheme();
   return (
     <Sidebar>
-      <SidebarHeader className="bg-sea-master-blue text-white font-inter px-4">
-        <img className="mx-auto mt-2 mb-2" src="logo.svg" alt="logo" />
+      <SidebarHeader className="bg-background text-foreground font-inter px-4">
+        <img
+          className="mx-auto mt-2 mb-2"
+          src={
+            theme === "dark"
+              ? "sea-master-logo.svg"
+              : "sea-master-logo-light.svg"
+          }
+          alt="logo"
+        />
         <div className="flex items-center justify-between gap-3 my-4">
-          <Button className="w-full bg-inherit rounded-xl border border-white hover:bg-inherit hover:outline hover:outline-2 hover:outline-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:ring-0 shadow-none p-2 font-bold">
+          <Button className="w-full bg-background rounded-xl border border-border hover:bg-muted hover:outline hover:outline-2 hover:outline-background focus-visible:outline focus-visible:outline-2 focus-visible:outline-background focus-visible:ring-0 shadow-none p-2 font-bold text-foreground">
             Chats
           </Button>
-          <Button className="w-full bg-inherit rounded-xl border border-white hover:bg-inherit hover:outline hover:outline-2 hover:outline-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:ring-0 shadow-none p-2 font-bold">
+          <Button className="w-full bg-background rounded-xl border border-border hover:bg-muted hover:outline hover:outline-2 hover:outline-background focus-visible:outline focus-visible:outline-2 focus-visible:outline-background focus-visible:ring-0 shadow-none p-2 font-bold text-foreground">
             Notes
           </Button>
         </div>
-        <Button className="w-full bg-white text-gray-900 hover:bg-white hover:text-gray-900 focus-visible:ring-0 focus:outline-none rounded-xl">
+        <Button className="w-full bg-background text-foreground hover:bg-background hover:text-muted-foreground focus-visible:ring-0 focus:outline-none rounded-xl">
           <span>{<Plus />}</span>New Chat
         </Button>
       </SidebarHeader>
-      <SidebarContent className="bg-sea-master-blue text-white font-inter">
+      <SidebarContent className="bg-background text-foreground font-inter">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -68,11 +76,11 @@ export default function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="bg-sea-master-blue text-white font-inter px-5">
+      <SidebarFooter className="bg-background text-foreground font-inter px-5">
         <div className="my-3 text-sm font-normal">
           <Button
             size={"sm"}
-            className="w-full bg-white text-gray-900 hover:bg-white hover:text-gray-900 focus-visible:ring-0 focus:outline-none text-xs font-semibold rounded-full"
+            className="w-full bg-background text-foreground hover:bg-background hover:text-muted-foreground focus-visible:ring-0 focus:outline-none text-xs font-semibold rounded-full"
           >
             500/1000 tokens
           </Button>

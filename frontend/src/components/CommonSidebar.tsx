@@ -32,7 +32,7 @@ export default function CommonSidebar({
   menuItems,
   footerItems,
 }: CommonSidebarProps) {
-  const { setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme, theme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -44,14 +44,22 @@ export default function CommonSidebar({
   }
 
   return (
-    <Sidebar className="px-3">
+    <Sidebar className="px-3 bg-background">
       {/* Sidebar Header */}
-      <SidebarHeader className="bg-sea-master-blue text-white font-inter px-4">
-        <img className="mx-auto mt-3 mb-5" src="logo.svg" alt="logo" />
+      <SidebarHeader className="font-inter px-4">
+        <img
+          className="mx-auto mt-3 mb-5"
+          src={
+            theme === "dark"
+              ? "sea-master-logo.svg"
+              : "sea-master-logo-light.svg"
+          }
+          alt="sea-master-logo"
+        />
       </SidebarHeader>
 
       {/* Sidebar Content */}
-      <SidebarContent className="bg-sea-master-blue text-white font-inter">
+      <SidebarContent className="font-inter">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -71,7 +79,7 @@ export default function CommonSidebar({
       </SidebarContent>
 
       {/* Sidebar Footer */}
-      <SidebarFooter className="bg-sea-master-blue text-white font-inter px-5">
+      <SidebarFooter className="font-inter px-5">
         <div className="my-3 text-sm font-normal">
           {/* Dark Mode Toggle */}
           <div className="flex items-center justify-between my-4">

@@ -23,12 +23,13 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Checkbox } from "./ui/checkbox";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import useAuthStore from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useLoadingStore from "@/store/loadingStore";
+import { SIGNUP_MUTATION } from "@/lib/mutations";
 
 const formSchema = z
   .object({
@@ -48,24 +49,9 @@ const formSchema = z
     message: "Passwords must match.",
   });
 
-const SIGNUP_MUTATION = gql`
-  mutation Signup($username: String!, $email: String!, $password: String!) {
-    register(
-      input: { username: $username, email: $email, password: $password }
-    ) {
-      jwt
-      user {
-        id
-        username
-        email
-      }
-    }
-  }
-`;
-
 export default function SignUp() {
   const [signupSuccess, setSignupSuccess] = useState(false);
-  const [signup, { data, loading, error }] = useMutation(SIGNUP_MUTATION);
+  const [signup] = useMutation(SIGNUP_MUTATION);
   const { setAuth } = useAuthStore();
   const router = useRouter();
   const { setLoading } = useLoadingStore();

@@ -22,12 +22,13 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Checkbox } from "./ui/checkbox";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import useAuthStore from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useLoadingStore from "@/store/loadingStore";
+import { LOGIN_MUTATION } from "@/lib/mutations";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -38,19 +39,6 @@ const formSchema = z.object({
     message: "Password must be at least 6 characters.",
   }),
 });
-
-const LOGIN_MUTATION = gql`
-  mutation Login($identifier: String!, $password: String!) {
-    login(input: { identifier: $identifier, password: $password }) {
-      jwt
-      user {
-        id
-        username
-        email
-      }
-    }
-  }
-`;
 
 export default function Signin() {
   const [signinSuccess, setSigninSuccess] = useState(false);

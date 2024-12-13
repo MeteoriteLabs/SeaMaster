@@ -77,7 +77,7 @@ export default function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="bg-background text-foreground font-inter">
-        <div className="my-3 text-sm font-normal">
+        <div className="my-3 text-base font-normal">
           <Button
             size={"sm"}
             className="w-full bg-background text-foreground hover:bg-background hover:text-muted-foreground focus-visible:ring-0 focus:outline-none text-xs font-semibold rounded-full"
@@ -88,12 +88,12 @@ export default function AppSidebar() {
             <div className="flex items-center justify-between">
               {theme === "light" ? (
                 <Moon
-                  size={18}
+                  size={20}
                   className="mr-3 transition-transform duration-300 ease-in-out"
                 />
               ) : (
                 <Sun
-                  size={18}
+                  size={20}
                   className="mr-3 transition-transform duration-300 ease-in-out"
                 />
               )}
@@ -110,30 +110,22 @@ export default function AppSidebar() {
             <div className="cursor-pointer">
               {theme === "light" ? (
                 <ToggleLeft
-                  size={20}
+                  size={22}
                   className="transition-transform duration-300 ease-in-out"
                   onClick={() => setTheme("dark")}
                 />
               ) : (
                 <ToggleRight
-                  size={20}
+                  size={22}
                   className="transition-transform duration-300 ease-in-out"
                   onClick={() => setTheme("light")}
                 />
               )}
             </div>
           </div>
-          <div className="flex items-center my-4">
-            <Settings size={18} className="mr-3" />
+          <div className="flex items-center my-4 cursor-pointer">
+            <Settings size={20} className="mr-3" />
             <p>Settings</p>
-          </div>
-          <div className="flex items-center my-4 -ml-1">
-            <img
-              src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
-              alt="User Avatar"
-              className="w-7 h-7 rounded-full mr-2"
-            />
-            <p>Account</p>
           </div>
         </div>
       </SidebarFooter>

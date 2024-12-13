@@ -34,7 +34,7 @@ export default function AccountDropdown() {
           />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 relative right-5">
+      <DropdownMenuContent className="w-56 relative right-5 font-inter">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>

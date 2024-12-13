@@ -38,6 +38,7 @@
     --sidebar-accent-foreground: #000000; /* Black */
     --sidebar-border: #cccccc; /* Light Gray */
     --sidebar-ring: #e0e0e0; /* Lighter Gray */
+    --popover: #f2f2f2;
   }
 
   .dark {
@@ -72,6 +73,7 @@
     --sidebar-accent-foreground: #f2f2f2; /* Very Light Gray */
     --sidebar-border: #044c60; /* Darker Blue */
     --sidebar-ring: #033a4d; /* Even Darker Blue */
+    --popover: #066286;
   }
 
   /* Global Styles */

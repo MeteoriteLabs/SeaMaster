@@ -64,11 +64,11 @@ export default function CommonSidebar({
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item, index) => (
-                <SidebarMenuItem key={index}>
+                <SidebarMenuItem key={index} className="cursor-pointer">
                   <SidebarMenuButton asChild>
-                    <div className="flex items-center mb-1">
+                    <div className="flex items-center mb-2">
                       <div className="mr-2">{item.icon}</div>
-                      <p className="text-sm font-normal">{item.name}</p>
+                      <p className="text-base font-normal">{item.name}</p>
                     </div>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -86,21 +86,21 @@ export default function CommonSidebar({
             <div className="flex items-center">
               {resolvedTheme === "light" ? (
                 <Moon
-                  size={18}
+                  size={22}
                   className="mr-3 transition-transform duration-300 ease-in-out"
                 />
               ) : (
                 <Sun
-                  size={18}
+                  size={22}
                   className="mr-3 transition-transform duration-300 ease-in-out"
                 />
               )}
               {resolvedTheme === "light" ? (
-                <p className="transition-colors duration-300 ease-in-out">
+                <p className="transition-colors duration-300 ease-in-out text-base">
                   Dark Mode
                 </p>
               ) : (
-                <p className="transition-colors duration-300 ease-in-out">
+                <p className="transition-colors duration-300 ease-in-out text-base">
                   Light Mode
                 </p>
               )}
@@ -108,13 +108,13 @@ export default function CommonSidebar({
             <div className="cursor-pointer">
               {resolvedTheme === "light" ? (
                 <ToggleLeft
-                  size={20}
+                  size={22}
                   className="transition-transform duration-300 ease-in-out"
                   onClick={() => setTheme("dark")}
                 />
               ) : (
                 <ToggleRight
-                  size={20}
+                  size={22}
                   className="transition-transform duration-300 ease-in-out"
                   onClick={() => setTheme("light")}
                 />
@@ -126,7 +126,7 @@ export default function CommonSidebar({
           {footerItems.map((item, index) => (
             <div key={index} className="flex items-center my-4">
               <div className="mr-2">{item.icon}</div>
-              <p>{item.name}</p>
+              <p className="text-base">{item.name}</p>
             </div>
           ))}
         </div>

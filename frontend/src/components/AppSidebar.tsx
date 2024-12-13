@@ -84,7 +84,7 @@ export default function AppSidebar() {
           >
             500/1000 tokens
           </Button>
-          <div className="flex items-center justify-between my-5">
+          <div className="flex items-center justify-between mt-5 mb-4">
             <div className="flex items-center justify-between">
               {theme === "light" ? (
                 <Moon

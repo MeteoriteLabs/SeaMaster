@@ -3,6 +3,7 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/AppSidebar";
 import { useTheme } from "next-themes";
+import AccountDropdown from "@/components/AccountDropdown";
 
 export default function RootLayout({
   children,
@@ -28,12 +29,8 @@ export default function RootLayout({
                   }
                   alt="logo"
                 />
-                <div className="w-10 h-10 rounded-full mr-3">
-                  <img
-                    src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato"
-                    alt="User Avatar"
-                    className="w-10 h-10 rounded-full"
-                  />
+                <div className="mr-3">
+                  <AccountDropdown />
                 </div>
               </header>
               {children}

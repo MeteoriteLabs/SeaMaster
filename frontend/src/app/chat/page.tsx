@@ -1,28 +1,26 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Chat } from "@/components/chat/chat";
-
-interface IChat {
-  id: number;
-  question: string;
-  answer: string;
-}
+import useChatStore from "@/store/chatStore"; // Import Zustand store
+import { Chat } from "@/components/chat/chat"; // Chat component to render messages
 
 export default function ChatPage() {
-  const [chat, setChat] = useState<IChat[]>([
-    {
-      id: 1,
-      question: "This is my first question",
-      answer: "My first answer can be short but I need something a bit longer.",
-    },
-  ]);
-  const [isLoading, setIsLoading] = useState(false); // Tracks API call status
-  const [errorMessage, setErrorMessage] = useState<string | null>(null); // Tracks errors
+  const { chats, activeChatId, setActiveChat, addMessage } = useChatStore(); // Access global state and actions
+  const [isLoading, setIsLoading] = useState(false); // Loading indicator
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); // Error handling
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
+  // Get the active chat details
+  const activeChat = chats.find((chat) => chat.id === activeChatId);
+
+  // Function to handle asking a question
   const askQuestion = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!activeChatId) {
+      setErrorMessage("No active chat selected.");
+      return;
+    }
 
     const form = event.currentTarget;
     const formData = new FormData(form);
@@ -52,38 +50,42 @@ export default function ChatPage() {
 
       const data = await response.json();
 
-      setChat((prevChat) => [
-        ...prevChat,
-        {
-          id: prevChat.length + 1,
-          question,
-          answer: data.answer || "No response",
-        },
-      ]);
+      // Add the question and answer to the active chat's messages
+      addMessage(activeChatId, question, data.answer || "No response");
     } catch (error) {
       console.error("Error while submitting question:", error);
       setErrorMessage("Failed to fetch the answer. Please try again.");
     } finally {
       setIsLoading(false);
-      form.reset(); // Reset the input field
+      form.reset(); // Clear the input field
     }
   };
 
   useEffect(() => {
+    // Auto-scroll to the bottom when messages are updated
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [chat]);
+  }, [activeChat]);
+
+  console.log(activeChat);
 
   return (
     <div className="flex flex-col h-screen w-full md:p-10 p-5">
+      {/* Chat Header */}
+      {/* <div className="mb-4">
+        <h2 className="text-xl font-semibold">
+          {activeChat ? activeChat.name : "No Chat Selected"}
+        </h2>
+      </div> */}
+
       {/* Chat History */}
       <div
         className="flex-1 overflow-y-scroll p-4 space-y-4 pb-6 mb-20 scrollbar-hide lg:px-36 md:px-2 font-mullish-400"
         ref={scrollRef}
       >
-        {chat.map((c: IChat) => (
-          <Chat key={c.id} data={c} />
+        {activeChat?.messages.map((msg) => (
+          <Chat key={msg.id} data={msg} />
         ))}
       </div>
 
@@ -104,14 +106,14 @@ export default function ChatPage() {
               type="text"
               placeholder="Type a message..."
               className="bg-[#f2f2f2] text-black flex h-10 w-full rounded-lg bg-background/80 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              disabled={isLoading}
+              disabled={isLoading || !activeChatId}
             />
 
             {/* Submit Button */}
             <button
               type="submit"
               className="absolute right-1 top-1/2 transform -translate-y-1/2 shadow-sm hover:shadow-md transition-all flex items-center justify-center p-2 bg-transparent"
-              disabled={isLoading}
+              disabled={isLoading || !activeChatId}
             >
               <img
                 src={isLoading ? "loading-spinner.svg" : "send.svg"}

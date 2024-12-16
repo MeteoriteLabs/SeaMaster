@@ -2,7 +2,8 @@ import { create } from "zustand";
 
 interface IMessage {
   id: number;
-  text: string;
+  question: string;
+  answer: string;
 }
 
 interface IChat {
@@ -16,7 +17,7 @@ interface ChatState {
   activeChatId: string | null;
   setActiveChat: (id: string) => void;
   addChat: () => void;
-  addMessage: (chatId: string, message: string) => void;
+  addMessage: (chatId: string, message: string, answer: string) => void;
 }
 
 const useChatStore = create<ChatState>((set) => ({
@@ -27,8 +28,10 @@ const useChatStore = create<ChatState>((set) => ({
   ],
   activeChatId: null,
 
+  // Set the active chat
   setActiveChat: (id) => set(() => ({ activeChatId: id })),
 
+  // Add a new chat
   addChat: () =>
     set((state) => {
       const newChatId = `${Date.now()}`;
@@ -40,7 +43,8 @@ const useChatStore = create<ChatState>((set) => ({
       return { chats: [...state.chats, newChat], activeChatId: newChatId };
     }),
 
-  addMessage: (chatId, message) =>
+  // Add a message and answer to a specific chat
+  addMessage: (chatId, question, answer) =>
     set((state) => ({
       chats: state.chats.map((chat) =>
         chat.id === chatId
@@ -48,7 +52,7 @@ const useChatStore = create<ChatState>((set) => ({
               ...chat,
               messages: [
                 ...chat.messages,
-                { id: chat.messages.length + 1, text: message },
+                { id: chat.messages.length + 1, question, answer },
               ],
             }
           : chat

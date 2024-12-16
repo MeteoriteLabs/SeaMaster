@@ -8,7 +8,9 @@
   :root {
     /* Light Mode Variables */
     --background: #f2f2f2; /* #F2F2F2 */
+    --background-reverse: #1389b7;
     --foreground: #000000; /* Black */
+    --foreground-reverse: #f2f2f2;
     --card: #ffffff; /* White */
     --card-foreground: #000000; /* Black */
     --border: #cccccc; /* Light Gray */
@@ -44,7 +46,9 @@
   .dark {
     /* Dark Mode Variables */
     --background: #066286; /* Sea-Master Blue */
+    --background-reverse: #f2f2f2;
     --foreground: #f2f2f2; /* Very Light Gray */
+    --foreground-reverse: #000000;
     --card: #044c60; /* Darker Blue */
     --card-foreground: #f2f2f2; /* Very Light Gray */
     --border: #f2f2f2; /* Darker Blue */

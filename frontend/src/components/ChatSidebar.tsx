@@ -1,3 +1,6 @@
+"use client";
+
+import React from "react";
 import {
   Ellipsis,
   MessageSquareText,
@@ -22,28 +25,16 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "./ui/button";
 import { useTheme } from "next-themes";
-import React from "react";
-
-const items = [
-  { name: "Boilers" },
-  { name: "What is a hull" },
-  { name: "Engine Working" },
-];
+import useChatStore from "@/store/chatStore";
 
 export default function AppSidebar() {
   const { setTheme, theme } = useTheme();
-  const [mounted, setMounted] = React.useState(false);
 
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
+  const { chats, activeChatId, setActiveChat, addChat } = useChatStore();
 
   return (
     <Sidebar className="px-4 bg-background">
+      {/* Sidebar Header */}
       <SidebarHeader className="bg-background text-foreground font-inter">
         <img
           className="mx-auto mt-2 mb-2"
@@ -62,21 +53,32 @@ export default function AppSidebar() {
             Notes
           </Button>
         </div>
-        <Button className="w-full bg-background text-foreground hover:bg-background hover:text-muted-foreground focus-visible:ring-0 focus:outline-none rounded-xl">
-          <span>{<Plus />}</span>New Chat
+        <Button
+          className="w-full bg-background-reverse text-foreground-reverse hover:text-muted-foreground focus-visible:ring-0 focus:outline-none rounded-xl"
+          onClick={addChat}
+        >
+          <Plus className="mr-2" />
+          New Chat
         </Button>
       </SidebarHeader>
+
+      {/* Sidebar Content */}
       <SidebarContent className="bg-background text-foreground font-inter">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item, index) => (
-                <SidebarMenuItem key={index}>
+              {chats.map((chat) => (
+                <SidebarMenuItem key={chat.id}>
                   <SidebarMenuButton asChild>
-                    <div className="flex items-center justify-between mb-1">
+                    <div
+                      className={`flex items-center justify-between mb-1 p-2 rounded-lg cursor-pointer ${
+                        activeChatId === chat.id ? "bg-muted" : ""
+                      }`}
+                      onClick={() => setActiveChat(chat.id)}
+                    >
                       <div className="flex items-center justify-between">
                         <MessageSquareText size={18} className="mr-2" />
-                        <p className="text-sm font-light">{item?.name}</p>
+                        <p className="text-sm font-light">{chat.name}</p>
                       </div>
                       <Ellipsis size={18} />
                     </div>
@@ -87,13 +89,15 @@ export default function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+
+      {/* Sidebar Footer */}
       <SidebarFooter className="bg-background text-foreground font-inter">
         <div className="my-3 text-base font-normal">
           <Button
             size={"sm"}
-            className="w-full bg-background text-foreground hover:bg-background hover:text-muted-foreground focus-visible:ring-0 focus:outline-none text-xs font-semibold rounded-full"
+            className="w-full bg-background-reverse text-foreground-reverse hover:text-muted-foreground focus-visible:ring-0 focus:outline-none text-xs font-semibold rounded-full cursor-auto"
           >
-            500/1000 tokens
+            500 / 1000 tokens
           </Button>
           <div className="flex items-center justify-between mt-5 mb-4">
             <div className="flex items-center justify-between">

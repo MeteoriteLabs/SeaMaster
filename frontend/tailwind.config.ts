@@ -1,3 +1,4 @@
+import { reverse } from "dns";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -13,8 +14,14 @@ const config: Config = {
         "sea-master-blue": "#066286",
         "sea-master-blue-medium": "#1389B7",
         "sea-master-blue-light": "#D9D9D9",
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: {
+          DEFAULT: "var(--background)",
+          reverse: "var(--background-reverse)",
+        },
+        foreground: {
+          DEFAULT: "var(--foreground)",
+          reverse: "var(--foreground-reverse)",
+        },
         card: {
           DEFAULT: "var(--card)",
           foreground: "var(--card-foreground)",

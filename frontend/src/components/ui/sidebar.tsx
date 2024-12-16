@@ -267,6 +267,16 @@ const SidebarTrigger = React.forwardRef<
   const { toggleSidebar } = useSidebar();
   const { theme } = useTheme();
 
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <Button
       ref={ref}

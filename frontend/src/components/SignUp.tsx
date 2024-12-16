@@ -50,7 +50,6 @@ const formSchema = z
   });
 
 export default function SignUp() {
-  const [signupSuccess, setSignupSuccess] = useState(false);
   const [signup] = useMutation(SIGNUP_MUTATION);
   const { setAuth } = useAuthStore();
   const router = useRouter();
@@ -78,24 +77,21 @@ export default function SignUp() {
       setLoading(false);
       if (data?.register?.jwt) {
         setAuth(data.register.jwt, data.register.user);
-        setSignupSuccess(true);
+        toast("SignUp Successfull", {
+          description: "You have successfully signed up",
+        });
         router.push("/account");
       }
-    } catch (err) {
-      console.error("Signup error:", err);
+    } catch (error: any) {
+      setLoading(false);
+      const errorMessage =
+        error.response?.data?.message ||
+        "Something went wrong. Please try again.";
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
   }
-
-  useEffect(() => {
-    console.log("Signup Success:", signupSuccess);
-    if (signupSuccess) {
-      toast("SignUp Successfull", {
-        description: "You have successfully signed up",
-      });
-    }
-  }, [signupSuccess]);
 
   return (
     <Card className="w-[450px] p-8 bg-[#F2F2F2] shadow-md rounded-2xl font-inter mb-5">

@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "./ui/button";
 import { useTheme } from "next-themes";
+import React from "react";
 
 const items = [
   { name: "Boilers" },
@@ -31,6 +32,16 @@ const items = [
 
 export default function AppSidebar() {
   const { setTheme, theme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <Sidebar className="px-4 bg-background">
       <SidebarHeader className="bg-background text-foreground font-inter">

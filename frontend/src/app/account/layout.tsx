@@ -1,11 +1,8 @@
-"use client";
-
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import Sidebar from "@/components/CommonSidebar";
+import React from "react";
 import { Settings, User } from "lucide-react";
-import AccountDropdown from "@/components/AccountDropdown";
+import SidebarLayout from "@/components/SidebarLayout";
 
-export default function RootLayout({
+export default function AccountLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -17,18 +14,7 @@ export default function RootLayout({
 
   return (
     <section className="h-screen w-screen overflow-hidden bg-background text-foreground">
-      <div className="flex h-full">
-        <SidebarProvider>
-          <Sidebar menuItems={sidebarmenuItems} footerItems={[]} />
-          <main className="flex-1 min-h-screen overflow-y-auto">
-            <header className="sticky top-0 z-10 py-3 px-4 flex items-center justify-between">
-              <SidebarTrigger className="h-8 w-8 p-1 hover:bg-muted rounded-full" />
-              <AccountDropdown />
-            </header>
-            {children}
-          </main>
-        </SidebarProvider>
-      </div>
+      <SidebarLayout menuItems={sidebarmenuItems}>{children}</SidebarLayout>
     </section>
   );
 }

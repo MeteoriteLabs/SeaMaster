@@ -41,8 +41,7 @@ const formSchema = z.object({
 });
 
 export default function Signin() {
-  const [signinSuccess, setSigninSuccess] = useState(false);
-  const [login, { data, loading, error }] = useMutation(LOGIN_MUTATION);
+  const [login] = useMutation(LOGIN_MUTATION);
   const { setAuth } = useAuthStore();
   const router = useRouter();
   const { setLoading } = useLoadingStore();
@@ -67,22 +66,20 @@ export default function Signin() {
       setLoading(false);
       const { jwt, user } = response.data.login;
       setAuth(jwt, user);
-      setSigninSuccess(true);
-      router.push("/account");
-    } catch (err) {
-      console.error("Login error:", err);
+      toast("Login Successfull", {
+        description: "You have successfully signed in",
+      });
+      router.push("/chat");
+    } catch (error: any) {
+      setLoading(false);
+      const errorMessage =
+        error.response?.data?.message ||
+        "Something went wrong. Please try again.";
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
   }
-
-  useEffect(() => {
-    if (signinSuccess) {
-      toast("Login Successfull", {
-        description: "You have successfully signed in",
-      });
-    }
-  }, [signinSuccess]);
 
   return (
     <Card className="w-[450px] p-8 bg-[#F2F2F2] shadow-md rounded-2xl font-inter mb-5">

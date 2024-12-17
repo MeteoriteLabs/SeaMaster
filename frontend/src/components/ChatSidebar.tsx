@@ -26,6 +26,7 @@ import {
 import { Button } from "./ui/button";
 import { useTheme } from "next-themes";
 import useChatStore from "@/store/chatStore";
+import Image from "next/image";
 
 export default function AppSidebar() {
   const { setTheme, theme } = useTheme();
@@ -36,15 +37,22 @@ export default function AppSidebar() {
     <Sidebar className="px-4 bg-background">
       {/* Sidebar Header */}
       <SidebarHeader className="bg-background text-foreground font-inter">
-        <img
-          className="mx-auto mt-2 mb-2"
-          src={
-            theme === "dark"
-              ? "sea-master-logo.svg"
-              : "sea-master-logo-light.svg"
-          }
-          alt="logo"
-        />
+        <div className="mx-auto my-2">
+          <Image
+            className="dark:hidden"
+            src="sea-master-logo-light.svg"
+            width={120}
+            height={120}
+            alt="sea-master-logo-light"
+          />
+          <Image
+            className="hidden dark:block"
+            src="sea-master-logo.svg"
+            width={120}
+            height={120}
+            alt="sea-master-logo-dark"
+          />
+        </div>
         <div className="flex items-center justify-between gap-3 my-4">
           <Button className="w-full bg-background rounded-xl border border-border hover:bg-muted hover:outline hover:outline-2 hover:outline-background focus-visible:outline focus-visible:outline-2 focus-visible:outline-background focus-visible:ring-0 shadow-none p-2 font-bold text-foreground">
             Chats

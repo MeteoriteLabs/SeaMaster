@@ -57,6 +57,7 @@ export default function AppSidebar() {
           messages: [],
         }))
       );
+      setActiveChat(chats[chats.length - 1].documentId);
     }
   }, [chatsData, chatsLoading, chatsError, refetchChats]);
 
@@ -119,28 +120,31 @@ export default function AppSidebar() {
       </SidebarHeader>
 
       {/* Sidebar Content */}
-      <SidebarContent className="bg-background text-foreground font-inter">
+      <SidebarContent className="bg-background text-foreground font-inter scrollbar-hide">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {chats.map((chat) => (
-                <SidebarMenuItem key={chat.id}>
-                  <SidebarMenuButton asChild>
-                    <div
-                      className={`flex items-center justify-between mb-1 p-2 rounded-lg cursor-pointer ${
-                        activeChatId === chat.id ? "bg-muted" : ""
-                      }`}
-                      onClick={() => setActiveChat(chat.id)}
-                    >
-                      <div className="flex items-center justify-between">
-                        <MessageSquareText size={18} className="mr-2" />
-                        <p className="text-sm font-light">{chat.name}</p>
+              {chats
+                .slice()
+                .reverse()
+                .map((chat) => (
+                  <SidebarMenuItem key={chat.id}>
+                    <SidebarMenuButton asChild>
+                      <div
+                        className={`flex items-center justify-between mb-1 p-2 rounded-lg cursor-pointer ${
+                          activeChatId === chat.id ? "bg-muted" : ""
+                        }`}
+                        onClick={() => setActiveChat(chat.id)}
+                      >
+                        <div className="flex items-center justify-between">
+                          <MessageSquareText size={18} className="mr-2" />
+                          <p className="text-sm font-light">{chat.name}</p>
+                        </div>
+                        <Ellipsis size={18} />
                       </div>
-                      <Ellipsis size={18} />
-                    </div>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

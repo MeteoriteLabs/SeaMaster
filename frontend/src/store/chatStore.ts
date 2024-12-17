@@ -16,8 +16,8 @@ interface ChatState {
   chats: IChat[];
   activeChatId: string | null;
   setActiveChat: (id: string) => void;
-  addChat: () => void;
   addMessage: (chatId: string, message: string, answer: string) => void;
+  setChats: (chats: IChat[]) => void;
 }
 
 const useChatStore = create<ChatState>((set) => ({
@@ -26,18 +26,6 @@ const useChatStore = create<ChatState>((set) => ({
 
   // Set the active chat
   setActiveChat: (id) => set(() => ({ activeChatId: id })),
-
-  // Add a new chat
-  addChat: () =>
-    set((state) => {
-      const newChatId = `${Date.now()}`;
-      const newChat = {
-        id: newChatId,
-        name: `New Chat ${state.chats.length + 1}`,
-        messages: [],
-      };
-      return { chats: [...state.chats, newChat], activeChatId: newChatId };
-    }),
 
   // Add a message and answer to a specific chat
   addMessage: (chatId, question, answer) =>
@@ -54,6 +42,8 @@ const useChatStore = create<ChatState>((set) => ({
           : chat
       ),
     })),
+
+  setChats: (chats: IChat[]) => set(() => ({ chats })),
 }));
 
 export default useChatStore;

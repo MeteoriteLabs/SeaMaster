@@ -27,3 +27,12 @@ export const SIGNUP_MUTATION = gql`
     }
   }
 `;
+
+export const CREATE_CHAT = gql`
+  mutation CreateChat($data: ChatInput!) {
+    createChat(data: $data) {
+      ConversationTitle
+      documentId
+    }
+  }
+`;

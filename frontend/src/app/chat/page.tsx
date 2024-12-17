@@ -68,8 +68,6 @@ export default function ChatPage() {
     }
   }, [activeChat]);
 
-  console.log(activeChat);
-
   return (
     <div className="flex flex-col h-screen w-full md:p-10 p-5">
       {/* Chat Header */}

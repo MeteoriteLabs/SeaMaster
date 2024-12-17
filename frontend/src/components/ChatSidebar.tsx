@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Ellipsis,
   MessageSquareText,
@@ -27,11 +27,59 @@ import { Button } from "./ui/button";
 import { useTheme } from "next-themes";
 import useChatStore from "@/store/chatStore";
 import Image from "next/image";
+import { useMutation, useQuery } from "@apollo/client";
+import { GET_CHATS } from "@/lib/queries";
+import { CREATE_CHAT } from "@/lib/mutations";
+import Loader from "./Loader";
+import useAuthStore from "@/store/authStore";
+import { toast } from "sonner";
 
 export default function AppSidebar() {
   const { setTheme, theme } = useTheme();
+  const { user } = useAuthStore();
+  const { chats, activeChatId, setActiveChat, setChats } = useChatStore();
+  const [createChat, { data: createdChat, loading: createChatLoading }] =
+    useMutation(CREATE_CHAT);
+  const {
+    data: chatsData,
+    loading: chatsLoading,
+    error: chatsError,
+    refetch: refetchChats,
+  } = useQuery(GET_CHATS);
 
-  const { chats, activeChatId, setActiveChat, addChat } = useChatStore();
+  useEffect(() => {
+    if (chatsData && !chatsLoading && !chatsError) {
+      const chats = chatsData.chats;
+      setChats(
+        chats.map((chat: any) => ({
+          id: chat.documentId,
+          name: chat.ConversationTitle,
+          messages: [],
+        }))
+      );
+    }
+  }, [chatsData, chatsLoading, chatsError, refetchChats]);
+
+  const handleCreateChat = async () => {
+    try {
+      const { data } = await createChat({
+        variables: {
+          data: {
+            ConversationTitle: `Untitled Chat ${chats.length + 1}`,
+            account: user?.id || "",
+            publishedAt: new Date().toISOString(),
+          },
+        },
+      });
+      await refetchChats();
+      setActiveChat(data.createChat.documentId);
+    } catch (error) {
+      console.error("Error creating chat:", error);
+      toast.error("Error creating chat");
+    }
+  };
+
+  if (chatsLoading || createChatLoading) return <Loader />;
 
   return (
     <Sidebar className="px-4 bg-background">
@@ -63,7 +111,7 @@ export default function AppSidebar() {
         </div>
         <Button
           className="w-full bg-background-reverse text-foreground-reverse hover:text-muted-foreground focus-visible:ring-0 focus:outline-none rounded-xl"
-          onClick={addChat}
+          onClick={handleCreateChat}
         >
           <Plus className="mr-2" />
           New Chat

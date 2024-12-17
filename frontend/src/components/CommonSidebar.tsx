@@ -12,15 +12,18 @@ import {
 } from "@/components/ui/sidebar";
 import { Moon, Sun, ToggleLeft, ToggleRight } from "lucide-react";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 
 interface MenuItem {
   name: string;
   icon: React.ReactNode;
+  link?: string;
 }
 
 interface FooterItem {
   name: string;
   icon: React.ReactNode;
+  link?: string;
 }
 
 interface CommonSidebarProps {
@@ -65,11 +68,20 @@ export default function CommonSidebar({
             <SidebarMenu>
               {menuItems.map((item, index) => (
                 <SidebarMenuItem key={index} className="cursor-pointer">
-                  <SidebarMenuButton asChild>
-                    <div className="flex items-center mb-2">
-                      <div className="mr-2">{item.icon}</div>
-                      <p className="text-base font-normal">{item.name}</p>
-                    </div>
+                  <SidebarMenuButton asChild className="py-5">
+                    {item.link ? (
+                      <Link href={item.link}>
+                        <div className="flex items-center mb-2">
+                          <div className="mr-2">{item.icon}</div>
+                          <p className="text-base font-normal">{item.name}</p>
+                        </div>
+                      </Link>
+                    ) : (
+                      <div className="flex items-center mb-2">
+                        <div className="mr-2">{item.icon}</div>
+                        <p className="text-base font-normal">{item.name}</p>
+                      </div>
+                    )}
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

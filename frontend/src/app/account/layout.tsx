@@ -1,6 +1,7 @@
 import React from "react";
 import { MessageCircle, MessageSquareText, Settings, User } from "lucide-react";
 import SidebarLayout from "@/components/SidebarLayout";
+import { link } from "fs";
 
 export default function AccountLayout({
   children,
@@ -8,9 +9,9 @@ export default function AccountLayout({
   children: React.ReactNode;
 }) {
   const sidebarmenuItems = [
-    { name: "Chat", icon: <MessageSquareText /> },
+    { name: "Chat", icon: <MessageSquareText />, link: "/chat" },
     // { name: "My Profile", icon: <User /> },
-    { name: "Settings", icon: <Settings /> },
+    { name: "Settings", icon: <Settings />, link: "/settings" },
   ];
 
   return (

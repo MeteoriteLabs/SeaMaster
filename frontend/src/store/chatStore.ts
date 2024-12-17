@@ -21,11 +21,7 @@ interface ChatState {
 }
 
 const useChatStore = create<ChatState>((set) => ({
-  chats: [
-    { id: "1", name: "Boilers", messages: [] },
-    { id: "2", name: "What is a hull", messages: [] },
-    { id: "3", name: "Engine Working", messages: [] },
-  ],
+  chats: [],
   activeChatId: null,
 
   // Set the active chat

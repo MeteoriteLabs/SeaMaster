@@ -22,13 +22,15 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Checkbox } from "./ui/checkbox";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import useAuthStore from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useLoadingStore from "@/store/loadingStore";
 import { LOGIN_MUTATION } from "@/lib/mutations";
+import { GET_ACCOUNT } from "@/lib/queries";
+import Loader from "./Loader";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -41,10 +43,16 @@ const formSchema = z.object({
 });
 
 export default function Signin() {
-  const [login] = useMutation(LOGIN_MUTATION);
-  const { setAuth } = useAuthStore();
+  const [login, { loading: loginMutationLoading }] =
+    useMutation(LOGIN_MUTATION);
+  const [userDocumentId, setUserDocumentId] = useState<string | null>(null);
+  const { data: accountData, loading: queryLoading } = useQuery(GET_ACCOUNT, {
+    variables: { documentId: userDocumentId },
+    skip: !userDocumentId,
+  });
+
+  const { setAuth, setAccount } = useAuthStore();
   const router = useRouter();
-  const { setLoading } = useLoadingStore();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -56,31 +64,36 @@ export default function Signin() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      setLoading(true);
       const response = await login({
         variables: {
           identifier: values.email,
           password: values.password,
         },
       });
-      setLoading(false);
       const { jwt, user } = response.data.login;
       setAuth(jwt, user);
-      toast("Login Successfull", {
-        description: "You have successfully signed in",
-      });
-      router.push("/chat");
+      if (user) setUserDocumentId(user.documentId);
+      if (jwt && user) {
+        toast("Login Successfull", {
+          description: "You have successfully signed in",
+        });
+        router.push("/chat");
+      }
     } catch (error: any) {
-      setLoading(false);
       const errorMessage =
         error.response?.data?.message ||
         "Something went wrong. Please try again.";
       toast.error(errorMessage);
-    } finally {
-      setLoading(false);
     }
   }
 
+  useEffect(() => {
+    if (accountData && userDocumentId && !queryLoading) {
+      setAccount(accountData.usersPermissionsUser.account.documentId);
+    }
+  }, [accountData, userDocumentId, queryLoading]);
+
+  if (queryLoading || loginMutationLoading) return <Loader />;
   return (
     <Card className="w-[450px] p-8 bg-[#F2F2F2] shadow-md rounded-2xl font-inter mb-5">
       <CardHeader>

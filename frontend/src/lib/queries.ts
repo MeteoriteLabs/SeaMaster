@@ -9,3 +9,13 @@ export const GET_CHATS = gql`
     }
   }
 `;
+
+export const GET_ACCOUNT = gql`
+  query GetAccount($documentId: ID!) {
+    usersPermissionsUser(documentId: $documentId) {
+      account {
+        documentId
+      }
+    }
+  }
+`;

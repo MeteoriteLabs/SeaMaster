@@ -8,6 +8,7 @@ export const LOGIN_MUTATION = gql`
         id
         username
         email
+        documentId
       }
     }
   }
@@ -23,6 +24,7 @@ export const SIGNUP_MUTATION = gql`
         id
         username
         email
+        documentId
       }
     }
   }

@@ -22,14 +22,14 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Checkbox } from "./ui/checkbox";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import useAuthStore from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import useLoadingStore from "@/store/loadingStore";
 import { SIGNUP_MUTATION } from "@/lib/mutations";
+import { GET_ACCOUNT } from "@/lib/queries";
+import Loader from "./Loader";
 
 const formSchema = z
   .object({
@@ -50,10 +50,14 @@ const formSchema = z
   });
 
 export default function SignUp() {
-  const [signup] = useMutation(SIGNUP_MUTATION);
-  const { setAuth } = useAuthStore();
+  const [userDocumentId, setUserDocumentId] = useState<string | null>(null);
+  const { data: accountData, loading: queryLoading } = useQuery(GET_ACCOUNT, {
+    variables: { documentId: userDocumentId },
+    skip: !userDocumentId,
+  });
+  const [signup, { loading: signupLoading }] = useMutation(SIGNUP_MUTATION);
+  const { setAuth, setAccount } = useAuthStore();
   const router = useRouter();
-  const { setLoading } = useLoadingStore();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,33 +70,39 @@ export default function SignUp() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      setLoading(true);
-      const { data } = await signup({
+      console.log(values);
+
+      const response = await signup({
         variables: {
           email: values.email,
           username: values.username,
           password: values.password,
         },
       });
-      setLoading(false);
-      if (data?.register?.jwt) {
-        setAuth(data.register.jwt, data.register.user);
-        toast("SignUp Successfull", {
+      const { jwt, user } = response.data.register;
+      setAuth(jwt, user);
+      if (user) setUserDocumentId(user.documentId);
+      if (jwt && user) {
+        toast.success("SignUp Successful", {
           description: "You have successfully signed up",
         });
-        router.push("/account");
+        router.push("/chat");
       }
     } catch (error: any) {
-      setLoading(false);
       const errorMessage =
         error.response?.data?.message ||
         "Something went wrong. Please try again.";
       toast.error(errorMessage);
-    } finally {
-      setLoading(false);
     }
   }
 
+  useEffect(() => {
+    if (accountData && userDocumentId && !queryLoading) {
+      setAccount(accountData?.usersPermissionsUser?.account?.documentId);
+    }
+  }, [accountData, userDocumentId, queryLoading]);
+
+  if (queryLoading || signupLoading) return <Loader />;
   return (
     <Card className="w-[450px] p-8 bg-[#F2F2F2] shadow-md rounded-2xl font-inter mb-5">
       <CardHeader>
@@ -103,7 +113,10 @@ export default function SignUp() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6 text-black"
+          >
             <FormField
               control={form.control}
               name="email"

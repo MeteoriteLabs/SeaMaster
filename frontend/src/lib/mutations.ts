@@ -38,3 +38,18 @@ export const CREATE_CHAT = gql`
     }
   }
 `;
+
+export const UPDATE_CHAT = gql`
+  mutation UpdateChat($data: ChatInput!, $documentId: ID!) {
+    updateChat(data: $data, documentId: $documentId) {
+      ConversationTitle
+    }
+  }
+`;
+export const DELETE_CHAT = gql`
+  mutation DeleteChat($documentId: ID!) {
+    deleteChat(documentId: $documentId) {
+      documentId
+    }
+  }
+`;

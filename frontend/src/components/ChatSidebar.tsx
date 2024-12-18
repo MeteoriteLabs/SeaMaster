@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  Delete,
+  Edit,
   Ellipsis,
   MessageSquareText,
   Moon,
@@ -10,6 +12,8 @@ import {
   Sun,
   ToggleLeft,
   ToggleRight,
+  Check,
+  X,
 } from "lucide-react";
 
 import {
@@ -29,23 +33,34 @@ import useChatStore from "@/store/chatStore";
 import Image from "next/image";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_CHATS } from "@/lib/queries";
-import { CREATE_CHAT } from "@/lib/mutations";
+import { CREATE_CHAT, DELETE_CHAT, UPDATE_CHAT } from "@/lib/mutations";
 import Loader from "./Loader";
 import useAuthStore from "@/store/authStore";
 import { toast } from "sonner";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 export default function AppSidebar() {
   const { setTheme, theme } = useTheme();
   const { user } = useAuthStore();
   const { chats, activeChatId, setActiveChat, setChats } = useChatStore();
-  const [createChat, { data: createdChat, loading: createChatLoading }] =
-    useMutation(CREATE_CHAT);
+  const [createChat, { loading: createChatLoading }] = useMutation(CREATE_CHAT);
+  const [updateChat, { loading: updateChatLoading }] = useMutation(UPDATE_CHAT);
+  const [DeleteChat, { loading: deleteChatLoading }] = useMutation(DELETE_CHAT);
   const {
     data: chatsData,
     loading: chatsLoading,
     error: chatsError,
     refetch: refetchChats,
   } = useQuery(GET_CHATS);
+
+  const [editingChatId, setEditingChatId] = useState(null);
+  const [editingChatName, setEditingChatName] = useState("");
 
   useEffect(() => {
     if (chatsData && !chatsLoading && !chatsError) {
@@ -57,7 +72,7 @@ export default function AppSidebar() {
           messages: [],
         }))
       );
-      setActiveChat(chats[chats.length - 1].documentId);
+      setActiveChat(chats[chats.length - 1]?.documentId);
     }
   }, [chatsData, chatsLoading, chatsError, refetchChats]);
 
@@ -80,7 +95,53 @@ export default function AppSidebar() {
     }
   };
 
-  if (chatsLoading || createChatLoading) return <Loader />;
+  const handleEditChat = (chat: any) => {
+    setEditingChatId(chat.id);
+    setEditingChatName(chat.name);
+  };
+
+  const handleSaveEdit = async (chat: any) => {
+    console.log("chat", chat);
+    try {
+      await updateChat({
+        variables: {
+          data: {
+            ConversationTitle: editingChatName,
+          },
+          documentId: chat.id,
+        },
+      });
+      await refetchChats();
+      handleCancel();
+    } catch (error) {
+      console.error("Error updating chat:", error);
+      toast.error("Error updating chat");
+    }
+  };
+
+  const handleDeleteChat = async (chatId: any) => {
+    try {
+      await DeleteChat({ variables: { documentId: chatId } });
+      await refetchChats();
+      handleCancel();
+    } catch (error) {
+      console.error("Error deleting chat:", error);
+      toast.error("Error deleting chat");
+    }
+  };
+
+  const handleCancel = () => {
+    setEditingChatId(null);
+    setEditingChatName("");
+  };
+
+  if (
+    chatsLoading ||
+    createChatLoading ||
+    updateChatLoading ||
+    deleteChatLoading
+  )
+    return <Loader />;
 
   return (
     <Sidebar className="px-4 bg-background">
@@ -136,11 +197,64 @@ export default function AppSidebar() {
                         }`}
                         onClick={() => setActiveChat(chat.id)}
                       >
-                        <div className="flex items-center justify-between">
-                          <MessageSquareText size={18} className="mr-2" />
-                          <p className="text-sm font-light">{chat.name}</p>
-                        </div>
-                        <Ellipsis size={18} />
+                        {editingChatId === chat.id ? (
+                          <div className="flex items-center justify-between w-full">
+                            <input
+                              className="bg-transparent border-b border-muted p-1 text-sm focus:outline-none w-4/5"
+                              value={editingChatName}
+                              onChange={(e) =>
+                                setEditingChatName(e.target.value)
+                              }
+                              autoFocus
+                            />
+                            <div className="flex gap-2">
+                              <Check
+                                size={18}
+                                className="cursor-pointer text-success"
+                                onClick={() =>
+                                  editingChatName.trim()
+                                    ? handleSaveEdit(chat)
+                                    : null
+                                }
+                              />
+                              <X
+                                size={18}
+                                className="cursor-pointer text-danger"
+                                onClick={handleCancel}
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <>
+                            <div className="flex items-center">
+                              <MessageSquareText size={18} className="mr-2" />
+                              <p className="text-sm font-light">{chat.name}</p>
+                            </div>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Ellipsis size={18} />
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent className="min-w-[5rem] font-inter">
+                                <DropdownMenuGroup>
+                                  <DropdownMenuItem
+                                    className="cursor-pointer"
+                                    onClick={() => handleEditChat(chat)}
+                                  >
+                                    <Edit />
+                                    <span>Edit</span>
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem
+                                    className="cursor-pointer"
+                                    onClick={() => handleDeleteChat(chat.id)}
+                                  >
+                                    <Delete />
+                                    <span>Delete</span>
+                                  </DropdownMenuItem>
+                                </DropdownMenuGroup>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </>
+                        )}
                       </div>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

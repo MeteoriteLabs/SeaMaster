@@ -85,8 +85,8 @@ export default function Signin() {
 
   useEffect(() => {
     if (accountData && userDocumentId && !queryLoading) {
-      setAccount(accountData.usersPermissionsUser.account.documentId);
-      setRole(accountData.usersPermissionsUser.role.name);
+      setAccount(accountData?.usersPermissionsUser?.account?.documentId);
+      setRole(accountData?.usersPermissionsUser?.role?.name);
       toast("Login Successfull", {
         description: "You have successfully signed in",
       });

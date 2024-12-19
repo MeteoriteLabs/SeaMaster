@@ -47,7 +47,8 @@ import {
 
 export default function AppSidebar() {
   const { setTheme, theme } = useTheme();
-  const { user } = useAuthStore();
+  const { account } = useAuthStore();
+
   const { chats, activeChatId, setActiveChat, setChats } = useChatStore();
   const [createChat, { loading: createChatLoading }] = useMutation(CREATE_CHAT);
   const [updateChat, { loading: updateChatLoading }] = useMutation(UPDATE_CHAT);
@@ -63,8 +64,10 @@ export default function AppSidebar() {
   const [editingChatName, setEditingChatName] = useState("");
 
   useEffect(() => {
-    if (chatsData && !chatsLoading && !chatsError) {
-      const chats = chatsData.chats;
+    if (chatsData && !chatsLoading && !chatsError && account) {
+      const chats = chatsData.chats.filter(
+        (chat: any) => chat.account.documentId === account
+      );
       setChats(
         chats.map((chat: any) => ({
           id: chat.documentId,
@@ -74,7 +77,7 @@ export default function AppSidebar() {
       );
       setActiveChat(chats[chats.length - 1]?.documentId);
     }
-  }, [chatsData, chatsLoading, chatsError, refetchChats]);
+  }, [chatsData, chatsLoading, chatsError, refetchChats, account]);
 
   const handleCreateChat = async () => {
     try {
@@ -82,7 +85,7 @@ export default function AppSidebar() {
         variables: {
           data: {
             ConversationTitle: `Untitled Chat ${chats.length + 1}`,
-            account: user?.id || "",
+            account: account || "",
             publishedAt: new Date().toISOString(),
           },
         },

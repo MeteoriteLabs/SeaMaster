@@ -6,6 +6,9 @@ export const GET_CHATS = gql`
       ConversationTitle
       FileName
       documentId
+      account {
+        documentId
+      }
     }
   }
 `;

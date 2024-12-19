@@ -73,7 +73,11 @@ export default function Signin() {
       const { jwt, user } = response.data.login;
       setAuth(jwt, user);
       if (user) setUserDocumentId(user.documentId);
-      if (jwt && user) {
+      if (
+        jwt &&
+        user &&
+        accountData?.usersPermissionsUser?.account?.documentId
+      ) {
         toast("Login Successfull", {
           description: "You have successfully signed in",
         });
@@ -86,6 +90,8 @@ export default function Signin() {
       toast.error(errorMessage);
     }
   }
+
+  console.log(accountData, userDocumentId, "data");
 
   useEffect(() => {
     if (accountData && userDocumentId && !queryLoading) {

@@ -12,6 +12,7 @@ interface AuthState {
   account: {
     id: string;
   } | null;
+  role: string | null;
   setAuth: (
     token: string,
     user: {
@@ -22,6 +23,7 @@ interface AuthState {
     }
   ) => void;
   setAccount: (account: { id: string }) => void;
+  setRole: (role: string) => void;
   clearAuth: () => void;
 }
 
@@ -31,9 +33,12 @@ const useAuthStore = create<AuthState>()(
       token: null,
       user: null,
       account: null,
+      role: null,
       setAuth: (token, user) => set({ token, user }),
-      clearAuth: () => set({ token: null, user: null, account: null }),
+      clearAuth: () =>
+        set({ token: null, user: null, account: null, role: null }),
       setAccount: (account) => set({ account }),
+      setRole: (role) => set({ role }),
     }),
     {
       name: "auth",

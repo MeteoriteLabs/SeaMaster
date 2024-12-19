@@ -19,6 +19,9 @@ export const GET_ACCOUNT = gql`
       account {
         documentId
       }
+      role {
+        name
+      }
     }
   }
 `;

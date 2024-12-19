@@ -51,7 +51,7 @@ export default function Signin() {
     skip: !userDocumentId,
   });
 
-  const { setAuth, setAccount } = useAuthStore();
+  const { setAuth, setAccount, setRole } = useAuthStore();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -73,16 +73,6 @@ export default function Signin() {
       const { jwt, user } = response.data.login;
       setAuth(jwt, user);
       if (user) setUserDocumentId(user.documentId);
-      if (
-        jwt &&
-        user &&
-        accountData?.usersPermissionsUser?.account?.documentId
-      ) {
-        toast("Login Successfull", {
-          description: "You have successfully signed in",
-        });
-        router.push("/chat");
-      }
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.message ||
@@ -91,11 +81,14 @@ export default function Signin() {
     }
   }
 
-  console.log(accountData, userDocumentId, "data");
-
   useEffect(() => {
     if (accountData && userDocumentId && !queryLoading) {
       setAccount(accountData.usersPermissionsUser.account.documentId);
+      setRole(accountData.usersPermissionsUser.role.name);
+      toast("Login Successfull", {
+        description: "You have successfully signed in",
+      });
+      router.push("/chat");
     }
   }, [accountData, userDocumentId, queryLoading]);
 

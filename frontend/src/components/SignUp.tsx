@@ -30,6 +30,8 @@ import { toast } from "sonner";
 import { SIGNUP_MUTATION } from "@/lib/mutations";
 import { GET_ACCOUNT } from "@/lib/queries";
 import Loader from "./Loader";
+import Link from "next/link";
+import Image from "next/image";
 
 const formSchema = z
   .object({
@@ -220,10 +222,11 @@ export default function SignUp() {
               }}
             >
               Sign Up with Google{" "}
-              <img
+              <Image
                 src="/google-btn-logo.png"
                 alt="Google"
-                className="w-4 h-4"
+                width={16}
+                height={16}
               />
             </Button>
           </form>
@@ -232,9 +235,11 @@ export default function SignUp() {
       <CardFooter className="text-[#6C6C6C] text-base flex items-center justify-center">
         <p>
           Already have an account?{" "}
-          <span className="text-[#367AFF] font-semibold underline">
-            Sign In
-          </span>
+          <Link href="sign-in">
+            <span className="text-[#367AFF] font-semibold underline">
+              Sign In
+            </span>
+          </Link>
         </p>
       </CardFooter>
     </Card>

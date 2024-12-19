@@ -31,6 +31,8 @@ import useLoadingStore from "@/store/loadingStore";
 import { LOGIN_MUTATION } from "@/lib/mutations";
 import { GET_ACCOUNT } from "@/lib/queries";
 import Loader from "./Loader";
+import Link from "next/link";
+import Image from "next/image";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -177,10 +179,11 @@ export default function Signin() {
               }}
             >
               Sign in with Google{" "}
-              <img
+              <Image
                 src="/google-btn-logo.png"
                 alt="Google"
-                className="w-4 h-4"
+                width={16}
+                height={16}
               />
             </Button>
           </form>
@@ -189,9 +192,11 @@ export default function Signin() {
       <CardFooter className="text-[#6C6C6C] text-base flex items-center justify-center">
         <p>
           Need An Account?{" "}
-          <span className="text-[#367AFF] font-semibold underline">
-            Create One
-          </span>
+          <Link href="/sign-up">
+            <span className="text-[#367AFF] font-semibold underline">
+              Create One
+            </span>
+          </Link>
         </p>
       </CardFooter>
     </Card>

@@ -82,7 +82,11 @@ export default function SignUp() {
       const { jwt, user } = response.data.register;
       setAuth(jwt, user);
       if (user) setUserDocumentId(user.documentId);
-      if (jwt && user) {
+      if (
+        jwt &&
+        user &&
+        accountData?.usersPermissionsUser?.account?.documentId
+      ) {
         toast.success("SignUp Successful", {
           description: "You have successfully signed up",
         });

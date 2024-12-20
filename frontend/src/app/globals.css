@@ -1,3 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light Mode Variables */
+    --background: #f2f2f2; /* #F2F2F2 */
+    --background-reverse: #1389b7;
+    --foreground: #000000; /* Black */
+    --foreground-reverse: #f2f2f2;
+    --card: #ffffff; /* White */
+    --card-foreground: #000000; /* Black */
+    --border: #cccccc; /* Light Gray */
+    --input: #cccccc; /* Light Gray */
+    --ring: #cccccc; /* Lighter Gray */
+    --primary: #000000; /* Black */
+    --primary-foreground: #ffffff; /* White */
+    --secondary: #e6e6e6; /* Very Light Gray */
+    --secondary-foreground: #000000; /* Black */
+    --muted: #d9d9d9; /* Muted Gray */
+    --muted-foreground: #666666; /* Darker Gray */
+    --accent: #cccccc; /* Light Gray */
+    --accent-foreground: #000000; /* Black */
+    --destructive: #ff0000; /* Red */
+    --destructive-foreground: #ffffff; /* White */
+    --chart-1: #ff8800; /* Orange */
+    --chart-2: #00aa88; /* Greenish Teal */
+    --chart-3: #3377cc; /* Blue */
+    --chart-4: #ff66cc; /* Pink */
+    --chart-5: #ffcc00; /* Yellow */
+    --radius: 0.5rem;
+    --sidebar-background: #f2f2f2; /* Matches --background */
+    --sidebar-foreground: #000000; /* Matches --foreground */
+    --sidebar-primary: #000000; /* Black */
+    --sidebar-primary-foreground: #ffffff; /* White */
+    --sidebar-accent: #cccccc; /* Light Gray */
+    --sidebar-accent-foreground: #000000; /* Black */
+    --sidebar-border: #cccccc; /* Light Gray */
+    --sidebar-ring: #e0e0e0; /* Lighter Gray */
+    --popover: #f2f2f2;
+  }
+
+  .dark {
+    /* Dark Mode Variables */
+    --background: #066286; /* Sea-Master Blue */
+    --background-reverse: #f2f2f2;
+    --foreground: #f2f2f2; /* Very Light Gray */
+    --foreground-reverse: #000000;
+    --card: #044c60; /* Darker Blue */
+    --card-foreground: #f2f2f2; /* Very Light Gray */
+    --border: #f2f2f2; /* Darker Blue */
+    --input: #f2f2f2; /* Darker Blue */
+    --ring: #f2f2f2; /* Even Darker Blue */
+    --primary: #f2f2f2; /* Very Light Gray */
+    --primary-foreground: #066286; /* Sea-Master Blue */
+    --secondary: #044c60; /* Darker Blue */
+    --secondary-foreground: #f2f2f2; /* Very Light Gray */
+    --muted: #1389b7; /* Darker Blue */
+    --muted-foreground: #b3c7d1; /* Muted Light Blue */
+    --accent: #044c60; /* Darker Blue */
+    --accent-foreground: #f2f2f2; /* Very Light Gray */
+    --destructive: #cc3300; /* Dark Red */
+    --destructive-foreground: #f2f2f2; /* Very Light Gray */
+    --chart-1: #ff8800; /* Orange */
+    --chart-2: #00aa88; /* Greenish Teal */
+    --chart-3: #3377cc; /* Blue */
+    --chart-4: #ff66cc; /* Pink */
+    --chart-5: #ffcc00; /* Yellow */
+    --sidebar-background: #066286; /* Matches --background */
+    --sidebar-foreground: #f2f2f2; /* Matches --foreground */
+    --sidebar-primary: #f2f2f2; /* Very Light Gray */
+    --sidebar-primary-foreground: #066286; /* Sea-Master Blue */
+    --sidebar-accent: #044c60; /* Darker Blue */
+    --sidebar-accent-foreground: #f2f2f2; /* Very Light Gray */
+    --sidebar-border: #044c60; /* Darker Blue */
+    --sidebar-ring: #033a4d; /* Even Darker Blue */
+    --popover: #066286;
+  }
+
+  /* Global Styles */
+  body {
+    @apply bg-background text-foreground;
+  }
+  * {
+    @apply border-border;
+  }
+}

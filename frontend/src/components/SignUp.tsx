@@ -58,7 +58,7 @@ export default function SignUp() {
     skip: !userDocumentId,
   });
   const [signup, { loading: signupLoading }] = useMutation(SIGNUP_MUTATION);
-  const { setAuth, setAccount } = useAuthStore();
+  const { setAuth, setAccount, setRole } = useAuthStore();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -84,16 +84,6 @@ export default function SignUp() {
       const { jwt, user } = response.data.register;
       setAuth(jwt, user);
       if (user) setUserDocumentId(user.documentId);
-      if (
-        jwt &&
-        user &&
-        accountData?.usersPermissionsUser?.account?.documentId
-      ) {
-        toast.success("SignUp Successful", {
-          description: "You have successfully signed up",
-        });
-        router.push("/chat");
-      }
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.message ||
@@ -105,6 +95,11 @@ export default function SignUp() {
   useEffect(() => {
     if (accountData && userDocumentId && !queryLoading) {
       setAccount(accountData?.usersPermissionsUser?.account?.documentId);
+      setRole(accountData?.usersPermissionsUser?.role?.name);
+      toast.success("SignUp Successful", {
+        description: "You have successfully signed up",
+      });
+      router.push("/admin");
     }
   }, [accountData, userDocumentId, queryLoading]);
 
